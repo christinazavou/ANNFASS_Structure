@@ -1,0 +1,63 @@
+# Parameters for the airplane
+
+SOLVER:
+  gpu: 0,
+  logdir: /media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/buildnet_exp/logs/cos_lr_weighted_w_colour_lr_0.1_gamma_0.1_batch_16_not_adaptive/
+  max_iter: 1200 #1920000
+  test_iter: 200
+  test_every_iter: 12 #19200
+  run: test
+  lr_type: 'cos'
+  learning_rate: 0.1
+#  step_size: (30000,)
+  ckpt: '/media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/buildnet_exp/logs/cos_lr_weighted_w_colour_lr_0.1_gamma_0.1_batch_16_not_adaptive/model/iter_072000.ckpt'
+  verbose: True
+
+DATA:
+  train:
+    dtype: points
+    depth: 6
+    axis: y
+    node_dis: False
+    shuffle: True
+    take: -1
+    location: /media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/withcolor/
+    file_list: /media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/train_split_50_first.txt
+    label_location: /media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/point_labels_32/
+    batch_size: 16
+    mask_ratio: 0.85
+    return_pts: True
+    use_majority: False
+    hsv: False
+
+  test: 
+    dtype: points
+    depth: 6
+    axis: y
+    node_dis: False
+    adaptive: False
+    location: /media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/withcolor/
+    file_list: /media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/test_split.txt #val_split_50_first.txt
+    label_location: /media/maria/BigData1/Maria/buildnet_data_2k/100K_inverted_normals/point_labels_32/
+    shuffle: False
+    batch_size: 1
+    mask_ratio: 0.0
+    return_pts: True
+    use_majority: False
+    hsv: False
+
+
+MODEL:
+  name: hrnet
+  channel: 7
+  nout: 31
+  depth: 6
+  factor: 2
+  signal_abs: True
+
+LOSS:
+  num_class: 31
+  momentum: 0.9
+  weight_decay: 0.0005
+  point_wise: True
+  class_weights: ./configs/loss_weights/class_weights.txt

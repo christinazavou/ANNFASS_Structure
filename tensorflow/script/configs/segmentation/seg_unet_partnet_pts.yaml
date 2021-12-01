@@ -1,0 +1,62 @@
+# Parameters for the airplane
+
+SOLVER:
+  gpu: 0,
+  logdir: /media/christina/Data/todelete_unet1
+  max_iter: 1000
+  test_iter: 200
+  test_every_iter: 100
+  run: train
+  lr_type: 'plateau'
+
+DATA:
+  train:
+    dtype: points
+    distort: False
+    depth: 7
+    ##axis: y 
+    #angle: (5, 5, 5)
+    #interval: (1, 1, 1)
+    #scale: 0.25
+    #jitter: 0.125
+   # offset: 0.0
+    #uniform: True
+    node_dis: True
+    location: /media/christina/Verbatim/val_no_colour_no_rot.tfrecords
+    shuffle: 200
+    batch_size: 2
+    x_alias: data
+    mask_ratio: 0.0
+    return_pts: True
+
+  test: 
+    dtype: points
+    distort: False  # no data augmentation
+    depth: 7
+    axis: y 
+    #angle: (1, 1, 1)
+    #interval: (1, 1, 1)
+    #scale: 0.25
+    #jitter: 0.25
+    #offset: 0.0
+    node_dis: True
+    location: /media/christina/Verbatim/test_no_colour_no_rot.tfrecords
+    shuffle: 0
+    batch_size: 1
+    x_alias: data
+    return_pts: True
+
+
+MODEL:
+  name: unet
+  channel: 4  # NOTE: If you want feature channel 4 then node_dis needs to be True, otherwise False
+  nout: 32
+  depth: 7
+  factor: 2
+  signal_abs: True
+  depth_out: 7
+
+LOSS:
+  num_class: 32
+  weight_decay: 0.0005
+  momentum: 0.9

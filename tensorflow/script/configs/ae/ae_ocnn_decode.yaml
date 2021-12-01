@@ -1,0 +1,27 @@
+SOLVER:
+  gpu: 0,
+  logdir: /media/christina/Data/ANFASS_data/O-CNN/output/ocnn_completion/ae/ocnn_b16_decode_shape
+  ckpt: /media/christina/Data/ANFASS_data/O-CNN/output/ocnn_completion/ae/ocnn_b16/model/iter_020000.ckpt
+  run: decode_shape
+  test_iter: 43
+
+DATA:
+  test: 
+    dtype: octree
+    depth: 6
+    location: /media/christina/Data/ANFASS_data/O-CNN/ocnn_completion/specific_test_octrees.tfrecords
+    batch_size: 1
+    distort: False
+    offset: 0.0
+    node_dis: True
+    split_label: True
+    shuffle: 0
+
+MODEL:
+  name: ocnn
+  channel: 3
+  nout: 32   # The channel of the hidden code
+  depth: 6
+
+LOSS:
+  weight_decay: 0.0005
